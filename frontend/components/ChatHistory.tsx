@@ -1,23 +1,25 @@
 import React from "react";
 import Message from "./Message";
+import { Message as MsgType } from "@/pages";
 
 type ChatHistoryProps = {
-  messages: {
-    text: string;
-    sender: string;
-    timestamp: string;
-  }[];
+  messages: string[];
 };
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({ messages }) => {
   return (
     <div className="flex flex-col h-full overflow-y-auto">
+      {/* show start chatting if messages length is 0 */}
+      {messages.length === 0 ? (
+        <div className="flex flex-col items-center justify-center h-full text-gray-500">
+          <span className="text-4xl">👋</span>
+          <span className="text-2xl">Start chatting!</span>
+        </div>
+      ) : null}
       {messages.map((message, index) => (
         <Message
           key={index}
-          text={message.text}
-          sender={message.sender}
-          timestamp={message.timestamp}
+          body={message}
         />
       ))}
     </div>

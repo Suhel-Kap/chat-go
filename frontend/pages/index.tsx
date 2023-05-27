@@ -1,35 +1,37 @@
-import ChatHistory from '@/components/ChatHistory';
-import ChatInput from '@/components/ChatInput';
-import Header from '@/components/Header';
-import { connect, sendMsg } from '@/utils/connect';
-import React, { useEffect, useState } from 'react';
+import ChatHistory from "@/components/ChatHistory";
+import ChatInput from "@/components/ChatInput";
+import Header from "@/components/Header";
+import { connect, sendMsg } from "@/utils/connect";
+import Head from "next/head";
+import React, { useEffect, useState } from "react";
 
 export type Message = {
-  text: string;
-  sender: string;
-  timestamp: string;
+  body: string;
 };
 
 const ChatPage: React.FC = () => {
-  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  const [chatMessages, setChatMessages] = useState<string[]>([]);
 
   useEffect(() => {
-    connect((message: Message) => {
+    connect((message: string) => {
+      console.log(message)
       setChatMessages((chatMessages) => [...chatMessages, message]);
+      console.log("chatMessages", chatMessages)
     });
   }, []);
 
   const handleSend = (message: string) => {
     const newMessage: Message = {
-      text: message,
-      sender: 'Alice',
-      timestamp: new Date().toLocaleTimeString(),
+      body: message,
     };
     sendMsg(newMessage);
   };
 
   return (
     <>
+      <Head>
+        <title>Go Chat</title>
+      </Head>
       <Header />
       <div className="flex flex-col p-4 h-screen">
         <div className="overflow-y-auto flex-grow">
